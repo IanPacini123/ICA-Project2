@@ -1,4 +1,5 @@
 import cv2
+from emotion_detection_test import cnn_emotion_predictor
 
 # Classificador de rosto pré-treinado
 cascade_rosto = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
@@ -19,6 +20,19 @@ while True:
     # Desenhar retângulos ao redor dos rostos detectados
     for (x, y, w, h) in rosto:
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+    
+        # Extrair os pixels dentro do retângulo do rosto
+        face_roi = frame[y:y+h, x:x+w]
+
+        # Pré-processamento
+        face_resized = cv2.resize(face_roi, (48, 48))
+        face_gray = cv2.cvtColor(face_resized, cv2.COLOR_BGR2GRAY)
+        face_normalized = face_gray / 255.0  # Normalize to [0, 1]
+
+        predictor = Cnn_emotion_predictor()
+        predictor.predict(face_normalized)
+    
+
 
     # Mostrar o frame com os retângulos desenhados
     cv2.imshow('Detecção de Rosto na Webcam', frame)
