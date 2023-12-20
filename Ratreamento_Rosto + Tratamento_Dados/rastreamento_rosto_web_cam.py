@@ -2,12 +2,12 @@ import cv2
 import sys
 import numpy as np
 
-sys.path.append(r'C:\Users\Ianpa\Desktop\VSCode\ICA-Project2')
+sys.path.append(r'..\ICA-Project2')
 
 from emotion_detection.emotion_detection_test import Cnn_emotion_predictor
 
 # Classificador de rosto pré-treinado
-cascade_rosto = cv2.CascadeClassifier(r'C:\Users\Ianpa\Desktop\VSCode\ICA-Project2\Ratreamento_Rosto + Tratamento_Dados\haarcascade_frontalface_default.xml')
+cascade_rosto = cv2.CascadeClassifier(r'Ratreamento_Rosto + Tratamento_Dados\haarcascade_frontalface_default.xml')
 
 # Captura de vídeo da webcam 
 captura = cv2.VideoCapture(0)
@@ -33,8 +33,6 @@ while True:
         face_resized = cv2.resize(face_roi, (48, 48))
         face_gray = cv2.cvtColor(face_resized, cv2.COLOR_BGR2GRAY)
         face_normalized = face_gray / 255.0  # Normalize to [0, 1]
-
-        # Ensure the input shape is suitable for prediction
         face_normalized = np.reshape(face_normalized, (1, 48, 48, 1))
 
         predictor = Cnn_emotion_predictor()
